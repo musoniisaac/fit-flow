@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Calendar, Home, Dumbbell, TrendingUp, Zap } from 'lucide-react-native';
+import { Calendar, Chrome as Home, Dumbbell, TrendingUp, Zap } from 'lucide-react-native';
 
 export default function TabLayout() {
   return (

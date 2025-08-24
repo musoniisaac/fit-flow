@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Play, Clock, Zap, Target, Users, Home } from 'lucide-react-native';
+import { Play, Clock, Zap, Target, Users, Chrome as Home } from 'lucide-react-native';
 
 const { width } = Dimensions.get('window');
 
