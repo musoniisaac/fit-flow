@@ -1,17 +1,16 @@
 import { Tabs } from 'expo-router';
-import { Calendar, Chrome as Home, Dumbbell, TrendingUp } from 'lucide-react-native';
+import { Calendar, Home, Dumbbell, TrendingUp, Zap } from 'lucide-react-native';
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#3B82F6',
-        tabBarInactiveTintColor: '#6B7280',
+        tabBarActiveTintColor: '#00D4FF',
+        tabBarInactiveTintColor: '#64748B',
         tabBarStyle: {
-          backgroundColor: '#FFFFFF',
-          borderTopWidth: 1,
-          borderTopColor: '#E5E7EB',
+          backgroundColor: '#0F0F23',
+          borderTopWidth: 0,
           paddingBottom: 8,
           paddingTop: 8,
           height: 70,
@@ -32,20 +31,20 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="workouts"
+        options={{
+          title: 'Workouts',
+          tabBarIcon: ({ size, color }) => (
+            <Zap size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="calendar"
         options={{
           title: 'Calendar',
           tabBarIcon: ({ size, color }) => (
             <Calendar size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="routines"
-        options={{
-          title: 'Routines',
-          tabBarIcon: ({ size, color }) => (
-            <Dumbbell size={size} color={color} />
           ),
         }}
       />

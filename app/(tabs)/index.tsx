@@ -1,43 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Play, Clock, Flame } from 'lucide-react-native';
+import { Play, Clock, Flame, Zap, Target } from 'lucide-react-native';
 
 const motivationalQuotes = [
-  "The only bad workout is the one that didn't happen.",
-  "Your body can do it. It's your mind you need to convince.",
-  "Fitness is not about being better than someone else. It's about being better than you used to be.",
-  "The pain you feel today will be the strength you feel tomorrow.",
-  "Success is the sum of small efforts repeated day in and day out.",
-  "Don't wish for it, work for it.",
-  "Champions don't become champions in the ring. They become champions in their training.",
-  "Push yourself because no one else is going to do it for you."
+  "Transform your body, transform your life.",
+  "Every workout is progress, no matter how small.",
+  "Your only limit is your mind.",
+  "Consistency beats perfection every time.",
+  "The future you will thank the present you.",
+  "Strength doesn't come from comfort zones.",
+  "Your body achieves what your mind believes.",
+  "Progress, not perfection."
 ];
 
 const todayRoutines = [
   {
     id: 1,
-    name: "Morning Cardio",
-    duration: "30 min",
-    exercises: 4,
+    name: "Morning Flow",
+    duration: "15 min",
+    exercises: 6,
     completed: false,
-    time: "7:00 AM"
+    time: "7:00 AM",
+    type: "bodyweight"
   },
   {
     id: 2,
-    name: "Upper Body Strength",
-    duration: "45 min",
-    exercises: 6,
+    name: "Core Power",
+    duration: "20 min",
+    exercises: 8,
     completed: true,
-    time: "6:00 PM"
+    time: "12:00 PM",
+    type: "bodyweight"
   },
   {
     id: 3,
     name: "Evening Stretch",
-    duration: "15 min",
+    duration: "10 min",
     exercises: 5,
     completed: false,
-    time: "9:00 PM"
+    time: "8:00 PM",
+    type: "flexibility"
   }
 ];
 
@@ -46,12 +49,10 @@ export default function HomeScreen() {
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
-    // Set a daily quote based on the current date
     const today = new Date();
     const quoteIndex = today.getDate() % motivationalQuotes.length;
     setDailyQuote(motivationalQuotes[quoteIndex]);
 
-    // Update time every minute
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 60000);
@@ -64,18 +65,17 @@ export default function HomeScreen() {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* Header with gradient */}
+      {/* Header */}
       <LinearGradient
-        colors={['#3B82F6', '#1E40AF']}
+        colors={['#0F0F23', '#1A1A2E']}
         style={styles.header}
       >
         <View style={styles.headerContent}>
-          <Text style={styles.greeting}>Good Morning!</Text>
+          <Text style={styles.greeting}>Good Morning</Text>
           <Text style={styles.date}>
             {currentTime.toLocaleDateString('en-US', {
               weekday: 'long',
-              year: 'numeric',
-              month: 'long',
+              month: 'short',
               day: 'numeric'
             })}
           </Text>
@@ -84,29 +84,32 @@ export default function HomeScreen() {
 
       {/* Daily Quote */}
       <View style={styles.quoteContainer}>
-        <LinearGradient
-          colors={['#F97316', '#EA580C']}
-          style={styles.quoteGradient}
-        >
-          <Text style={styles.quoteLabel}>Daily Motivation</Text>
-          <Text style={styles.quote}>"{dailyQuote}"</Text>
-        </LinearGradient>
+        <View style={styles.quoteCard}>
+          <Text style={styles.quoteText}>"{dailyQuote}"</Text>
+          <View style={styles.quoteLine} />
+        </View>
       </View>
 
-      {/* Today's Stats */}
+      {/* Stats */}
       <View style={styles.statsContainer}>
         <View style={styles.statCard}>
-          <Flame size={24} color="#F97316" />
+          <View style={styles.statIcon}>
+            <Flame size={20} color="#00D4FF" />
+          </View>
           <Text style={styles.statNumber}>{completedRoutines}</Text>
           <Text style={styles.statLabel}>Completed</Text>
         </View>
         <View style={styles.statCard}>
-          <Clock size={24} color="#3B82F6" />
+          <View style={styles.statIcon}>
+            <Target size={20} color="#00D4FF" />
+          </View>
           <Text style={styles.statNumber}>{totalRoutines - completedRoutines}</Text>
           <Text style={styles.statLabel}>Remaining</Text>
         </View>
         <View style={styles.statCard}>
-          <Play size={24} color="#10B981" />
+          <View style={styles.statIcon}>
+            <Zap size={20} color="#00D4FF" />
+          </View>
           <Text style={styles.statNumber}>
             {Math.round((completedRoutines / totalRoutines) * 100)}%
           </Text>
@@ -116,7 +119,7 @@ export default function HomeScreen() {
 
       {/* Today's Routines */}
       <View style={styles.routinesContainer}>
-        <Text style={styles.sectionTitle}>Today's Routines</Text>
+        <Text style={styles.sectionTitle}>Today's Sessions</Text>
         {todayRoutines.map((routine) => (
           <Pressable
             key={routine.id}
@@ -125,7 +128,7 @@ export default function HomeScreen() {
               routine.completed && styles.completedRoutineCard
             ]}
           >
-            <View style={styles.routineHeader}>
+            <View style={styles.routineContent}>
               <View style={styles.routineInfo}>
                 <Text style={[
                   styles.routineName,
@@ -136,23 +139,25 @@ export default function HomeScreen() {
                 <Text style={styles.routineDetails}>
                   {routine.duration} • {routine.exercises} exercises
                 </Text>
+                <Text style={styles.routineType}>
+                  {routine.type === 'bodyweight' ? 'No Equipment' : 'Flexibility'}
+                </Text>
               </View>
-              <Text style={styles.routineTime}>{routine.time}</Text>
-            </View>
-            <View style={[
-              styles.routineStatus,
-              routine.completed ? styles.completedStatus : styles.pendingStatus
-            ]}>
-              <Text style={[
-                styles.statusText,
-                routine.completed ? styles.completedStatusText : styles.pendingStatusText
-              ]}>
-                {routine.completed ? 'Completed' : 'Pending'}
-              </Text>
+              <View style={styles.routineRight}>
+                <Text style={styles.routineTime}>{routine.time}</Text>
+                <View style={[
+                  styles.playButton,
+                  routine.completed && styles.completedButton
+                ]}>
+                  <Play size={16} color={routine.completed ? "#00D4FF" : "#FFFFFF"} />
+                </View>
+              </View>
             </View>
           </Pressable>
         ))}
       </View>
+
+      <View style={styles.bottomSpacer} />
     </ScrollView>
   );
 }
@@ -160,165 +165,171 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8FAFC',
+    backgroundColor: '#0A0A0F',
   },
   header: {
     paddingTop: 60,
-    paddingBottom: 30,
-    paddingHorizontal: 20,
+    paddingBottom: 40,
+    paddingHorizontal: 24,
   },
   headerContent: {
     alignItems: 'center',
   },
   greeting: {
-    fontSize: 28,
-    fontWeight: '700',
+    fontSize: 32,
+    fontWeight: '300',
     color: '#FFFFFF',
     marginBottom: 4,
+    letterSpacing: 1,
   },
   date: {
     fontSize: 16,
-    color: '#E2E8F0',
-    fontWeight: '500',
+    color: '#94A3B8',
+    fontWeight: '400',
+    letterSpacing: 0.5,
   },
   quoteContainer: {
     marginTop: -20,
-    marginHorizontal: 20,
-    marginBottom: 20,
+    marginHorizontal: 24,
+    marginBottom: 32,
   },
-  quoteGradient: {
-    borderRadius: 16,
+  quoteCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 20,
     padding: 24,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
   },
-  quoteLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#FED7AA',
-    marginBottom: 8,
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-  },
-  quote: {
+  quoteText: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: '300',
     color: '#FFFFFF',
-    lineHeight: 26,
+    lineHeight: 28,
     textAlign: 'center',
+    letterSpacing: 0.5,
+  },
+  quoteLine: {
+    width: 40,
+    height: 2,
+    backgroundColor: '#00D4FF',
+    alignSelf: 'center',
+    marginTop: 16,
+    borderRadius: 1,
   },
   statsContainer: {
     flexDirection: 'row',
-    marginHorizontal: 20,
-    marginBottom: 24,
-    gap: 12,
+    marginHorizontal: 24,
+    marginBottom: 32,
+    gap: 16,
   },
   statCard: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 16,
+    padding: 20,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
-    elevation: 2,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  statIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(0, 212, 255, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
   },
   statNumber: {
     fontSize: 24,
-    fontWeight: '700',
-    color: '#1F2937',
-    marginTop: 8,
+    fontWeight: '600',
+    color: '#FFFFFF',
     marginBottom: 4,
   },
   statLabel: {
     fontSize: 12,
-    fontWeight: '500',
-    color: '#6B7280',
+    fontWeight: '400',
+    color: '#94A3B8',
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    letterSpacing: 1,
   },
   routinesContainer: {
-    marginHorizontal: 20,
+    marginHorizontal: 24,
     marginBottom: 100,
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: '700',
-    color: '#1F2937',
-    marginBottom: 16,
+    fontWeight: '600',
+    color: '#FFFFFF',
+    marginBottom: 20,
+    letterSpacing: 0.5,
   },
   routineCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
-    elevation: 2,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
   },
   completedRoutineCard: {
-    backgroundColor: '#F0FDF4',
-    borderColor: '#22C55E',
-    borderWidth: 1,
+    backgroundColor: 'rgba(0, 212, 255, 0.1)',
+    borderColor: 'rgba(0, 212, 255, 0.3)',
   },
-  routineHeader: {
+  routineContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
   },
   routineInfo: {
     flex: 1,
   },
   routineName: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
-    color: '#1F2937',
-    marginBottom: 4,
+    color: '#FFFFFF',
+    marginBottom: 6,
+    letterSpacing: 0.5,
   },
   completedText: {
-    color: '#16A34A',
+    color: '#00D4FF',
   },
   routineDetails: {
     fontSize: 14,
-    color: '#6B7280',
+    color: '#94A3B8',
+    fontWeight: '400',
+    marginBottom: 4,
+  },
+  routineType: {
+    fontSize: 12,
+    color: '#00D4FF',
     fontWeight: '500',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  routineRight: {
+    alignItems: 'flex-end',
   },
   routineTime: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#3B82F6',
+    fontWeight: '500',
+    color: '#94A3B8',
+    marginBottom: 12,
   },
-  routineStatus: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 6,
-    alignSelf: 'flex-start',
+  playButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#00D4FF',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  completedStatus: {
-    backgroundColor: '#DCFCE7',
+  completedButton: {
+    backgroundColor: 'rgba(0, 212, 255, 0.2)',
+    borderWidth: 1,
+    borderColor: '#00D4FF',
   },
-  pendingStatus: {
-    backgroundColor: '#FEF3C7',
-  },
-  statusText: {
-    fontSize: 12,
-    fontWeight: '600',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  completedStatusText: {
-    color: '#16A34A',
-  },
-  pendingStatusText: {
-    color: '#D97706',
+  bottomSpacer: {
+    height: 100,
   },
 });
