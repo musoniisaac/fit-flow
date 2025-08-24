@@ -66,7 +66,7 @@ The app features four main sections accessible via bottom tab navigation:
 ### Setup
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone [your-repository-url]
 cd fitflow-app
 ```
 
@@ -146,7 +146,7 @@ The app uses Expo's managed workflow and requires no additional configuration fo
 ## 📱 Platform Support
 
 - **iOS**: Full support with native performance
-- **Android**: Full support with native performance  
+- **Android**: Full support with native performance
 - **Web**: Optimized for mobile-first responsive design
 
 ## 🚀 Deployment
@@ -159,7 +159,7 @@ npm run build:web
 ### Production Deployment
 The app can be deployed using:
 - **Expo Application Services (EAS)** for app stores
-- **Netlify/Vercel** for web deployment
+- **Web hosting platforms** for web deployment
 - **Expo Updates** for over-the-air updates
 
 ## 🤝 Contributing
