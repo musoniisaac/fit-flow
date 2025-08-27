@@ -26,7 +26,7 @@ const morningFlowExercises = [
       'Push back up to starting position',
       'Keep your core tight throughout the movement'
     ],
-    tips: 'Modify by doing knee push-ups if needed'
+    tips: 'Modify by doing knee push-ups if needed',
   },
   {
     id: 2,
