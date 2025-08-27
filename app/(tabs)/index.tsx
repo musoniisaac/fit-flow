@@ -28,7 +28,7 @@ const todayRoutines = [
   },
   {
     id: 2,
-    name: "Core Power",
+    name: "Core Blast",
     duration: "20 min",
     exercises: 8,
     completed: true,
