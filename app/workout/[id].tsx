@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Play, Pause, SkipForward, RotateCcw, ArrowLeft, CheckCircle } from 'lucide-react-native';
+import { Play, Pause, SkipForward, RotateCcw, ArrowLeft, CircleCheck as CheckCircle } from 'lucide-react-native';
 import Animated, { 
   useSharedValue, 
   useAnimatedStyle, 
