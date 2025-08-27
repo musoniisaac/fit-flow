@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Calendar, Chrome as Home, TrendingUp, Zap } from 'lucide-react-native';
+import { Calendar, Chrome as Home, TrendingUp } from 'lucide-react-native';
 
 export default function TabLayout() {
   return (
@@ -27,6 +27,15 @@ export default function TabLayout() {
           title: 'Home',
           tabBarIcon: ({ size, color }) => (
             <Home size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="workouts"
+        options={{
+          title: 'Workouts',
+          tabBarIcon: ({ size, color }) => (
+            <Zap size={size} color={color} />
           ),
         }}
       />
