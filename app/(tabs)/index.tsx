@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
 import { Play, Clock, Flame, Zap, Target } from 'lucide-react-native';
 
 const motivationalQuotes = [
@@ -22,7 +23,8 @@ const todayRoutines = [
     exercises: 6,
     completed: false,
     time: "7:00 AM",
-    type: "bodyweight"
+    type: "bodyweight",
+    workoutId: 1
   },
   {
     id: 2,
@@ -31,7 +33,8 @@ const todayRoutines = [
     exercises: 8,
     completed: true,
     time: "12:00 PM",
-    type: "bodyweight"
+    type: "bodyweight",
+    workoutId: 2
   },
   {
     id: 3,
@@ -40,7 +43,8 @@ const todayRoutines = [
     exercises: 5,
     completed: false,
     time: "8:00 PM",
-    type: "flexibility"
+    type: "flexibility",
+    workoutId: 7
   }
 ];
 
@@ -62,6 +66,12 @@ export default function HomeScreen() {
 
   const completedRoutines = todayRoutines.filter(r => r.completed).length;
   const totalRoutines = todayRoutines.length;
+
+  const handleRoutinePress = (routine) => {
+    if (!routine.completed) {
+      router.push(`/workout/${routine.workoutId}`);
+    }
+  };
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -127,6 +137,7 @@ export default function HomeScreen() {
               styles.routineCard,
               routine.completed && styles.completedRoutineCard
             ]}
+            onPress={() => handleRoutinePress(routine)}
           >
             <View style={styles.routineContent}>
               <View style={styles.routineInfo}>
@@ -149,7 +160,11 @@ export default function HomeScreen() {
                   styles.playButton,
                   routine.completed && styles.completedButton
                 ]}>
-                  <Play size={16} color={routine.completed ? "#00D4FF" : "#FFFFFF"} />
+                  {routine.completed ? (
+                    <Zap size={16} color="#00D4FF" />
+                  ) : (
+                    <Play size={16} color="#FFFFFF" />
+                  )}
                 </View>
               </View>
             </View>
