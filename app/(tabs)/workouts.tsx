@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
 import { Play, Clock, Zap, Target, Users, Chrome as Home } from 'lucide-react-native';
 
 const { width } = Dimensions.get('window');
@@ -113,6 +114,10 @@ export default function WorkoutsScreen() {
 
   const selectedCategoryData = workoutCategories.find(cat => cat.id === selectedCategory);
 
+  const handleWorkoutPress = (workoutId) => {
+    router.push(`/workout/${workoutId}`);
+  };
+
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
       case 'Beginner': return '#4ECDC4';
@@ -224,7 +229,7 @@ export default function WorkoutsScreen() {
           <Pressable 
             key={workout.id} 
             style={styles.workoutCard}
-            onPress={() => setSelectedWorkout(workout.id)}
+            onPress={() => handleWorkoutPress(workout.id)}
           >
             <View style={styles.workoutCardHeader}>
               <Text style={styles.workoutName}>{workout.name}</Text>
